@@ -55,3 +55,40 @@ print(f"Hello {my_inout}")
 
 #Truthy values - Everything else
 
+#casting - type conversion
+
+num1=2
+num2=30.877
+print(num1+num2)
+
+
+mytotal="My total is "+ str(num1)
+print(mytotal)
+
+#collections - python has a few built in collection types for storing different values
+#this include list disctionaries range tuples range etc
+
+#list- mutable ,allows duplicates indexible
+#coiunts from zeromylist
+mylist=[1,3,5,22]
+mylist.append(50)
+print(mylist)
+mylist.insert(2,"hello")
+print(mylist)
+mylist.remove(3)
+print(mylist)
+mylist.pop(2)
+print(mylist)
+mylist.append(22)
+print(mylist)
+mylist.insert(0,100)
+print(mylist)
+
+print(mylist)
+
+#SETS
+MYSET={1,2,3,4,5,5,5}
+print(MYSET)
+MYSET.add(10)
+print(MYSET)  
+print(MYSET.pop())
