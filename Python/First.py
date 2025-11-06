@@ -92,3 +92,19 @@ print(MYSET)
 MYSET.add(10)
 print(MYSET)  
 print(MYSET.pop())
+
+#Tuples 
+this_is_my_tuple=(1,2,6,3,4,5)
+print(this_is_my_tuple.count(1))
+
+print(this_is_my_tuple.index(3))
+
+#dictionary
+
+my_dictionary={
+    "name":"John",
+    "age":30,
+    "city":"New York"
+    }
+my_dictionary["name"]=30
+print(my_dictionary)

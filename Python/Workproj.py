@@ -2,6 +2,7 @@ print("*********AI Menu Placer Bot*********")
 
 food_list = [["1.Pizza",8.99], ["2.Burger",5.89], ["3.Pasta",2.36], ["4.Salad",6.33], ["5.Sushi",8.99]]
 food_prices = [8.99, 5.49, 7.99, 4.99, 12.99]
+order=[]
 while True:
  print("Choose option:\n1. Place Menu Order\n2. View Menu\n3. Exit")
  choose_option = input("Please enter the number corresponding to your choice: ")
@@ -29,6 +30,8 @@ while True:
         print("You have ordered Sushi. Your total is $8.99")
     else:
         print("Oh oh ! Invalid choice. Please try again.")
+    for i in range(20):
+        item
  print("You can only place one order at a time.")
  print("\n")
 
