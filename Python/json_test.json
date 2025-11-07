@@ -1,0 +1,7 @@
+{
+    "names": ["Joe", "bob", "albert"],
+    "favorite": {
+        "name": "pancakes",
+        "price": 8.99
+    }
+}
