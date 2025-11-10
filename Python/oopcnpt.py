@@ -69,10 +69,23 @@ class Car(Vehicle):
         
     def move(self):
         return "The car is driving."
+    def __str__(self):
+        return f"{self.year} {self.make} {self.model} valued at ${self.value}"
+    @property
     def vin(self):
         return "1HGCM82633A123456"
 my_car=Car("Toyota","Camry",2020,24000)
-print(my_car.move())
-      
+print(my_car.__dict__)
+      class Animal:
+        def __init__(self,name,age,species,secret,super_secret):
+            self.name=name
+            self.age=age
+            self.species=species
+            self._secret=secret
+            self.__super_secret=super_secret
+        def __str__(self):
+            return f"{self.name} is a {self.species} aged {self.age} with a secret {self.secret} and a super secret {self.super_secret}"
+        def __repr__(self):
+            return f"Animal(name={self.name}, age={self.age}, species={self.species}, secret={self.secret}, super_secret={self.super_secret})"
 
     
