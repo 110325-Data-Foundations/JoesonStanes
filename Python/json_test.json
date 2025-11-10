@@ -1,7 +1,2 @@
-{
-    "names": ["Joe", "bob", "albert"],
-    "favorite": {
-        "name": "pancakes",
-        "price": 8.99
-    }
-}
+["Joe", "bob", "albert"]
+{"name": "pancakes", "price": 8.99}

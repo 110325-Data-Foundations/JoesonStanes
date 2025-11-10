@@ -1,15 +1,18 @@
 print("********* AI Menu Placer Bot *********")
 
-# Menu list
+# menu list
 food_list = [
-    ["1.Pizza", 8.99],
-    ["2.Burger", 5.89],
-    ["3.Pasta", 2.36],
-    ["4.Salad", 6.33],
-    ["5.Sushi", 8.99]
+    ["1. Margherita Pizza", 9.49],
+    ["2. Spicy Chicken Burger", 7.29],
+    ["3. Alfredo Pasta", 6.99],
+    ["4. Caesar Salad", 5.79],
+    ["5. Dragon Sushi Roll", 10.99],
+    ["6. BBQ Chicken Wings", 8.49],
+    ["7. Chocolate Lava Cake", 4.99],
+    ["8. Mango Smoothie", 3.99]
 ]
 
-# Dictionary to store orders
+# dictionary to store orders
 orders = {}
 
 while True:
@@ -34,9 +37,10 @@ while True:
                 food_name = food_list[index][0][2:]  # remove the "1." prefix
                 food_price = food_list[index][1]
 
-                # Save to dictionary
+                # save to dictionary
                 if food_name in orders:
-                    orders[food_name] += food_price  # Add again if already ordered
+                    
+                    orders[food_name] += food_price  # add again if already ordered
                 else:
                     orders[food_name] = food_price
 
@@ -44,14 +48,14 @@ while True:
 
             else:
                 print("Oh oh! Invalid choice. Please try again.\n")
-#Showing the menu
+#showing the menu
     elif choose_option == '2':
         print("\nMenu:")
         for item in food_list:
 
             print(f"{item[0]}   -   ${item[1]}")
         print("\n")
-#Looking at the orders
+#looking at the orders
     elif choose_option == '3':
         if not orders:
             print("\nNo items ordered yet.\n")
