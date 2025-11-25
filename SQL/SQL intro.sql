@@ -142,3 +142,133 @@ SELECT name, unit_price,
 (SELECT MIN(unit_price) FROM track) AS lowest_price
 FROM track
 WHERE unit_price>(SELECT AVG(unit_price) FROM track)
+
+
+
+-- DAY 2 --
+
+-- yester day we went through beginner to intermediate sql concepts
+-- We  are gonna start with transactions and tcl commands we have complex operations we want to affect the data bse we want to ensure that all comands execute or all changes are executed 
+
+
+--A-THis can be broken down any further all pars of out transcation must suceeed or they fail
+--C-- The database moves from one state to another state
+--I-Isolations:Transactions can interfere or step on one another 
+--Durability-Once a transactions is commited the chages are permanent 
+
+--Lets transffer a track between playlist 
+
+BEGIN TRANSACTION;
+
+--remove the track from one play list add the track on an another playlist 
+-- lets verify for illustrative  purposes our changes before we commit
+DELETE FROM playlist_track --some light dml deleting a record from a table
+WHERE playlist_id=1 AND track_id=1;
+-- because this table has a composite priamary key we need to specify both key columns to selsct one unique row
+INSERT INTO playlist_track (playlist_id,track_id)
+VALUES (2,1);
+
+SELECT * FROM playlist_track
+WHERE track_id=1 AND  playlist_id IN (1,2);
+--Transactions can involve many many operations that can involve some applications that can fail
+--to add save points and places where if an error is detecte
+
+COMMIT;-- THis makes the chages to the data bse always end the transaction with a commit
+
+ROLLBACK TO deleted_track;-- this will roll back to a specific save point
+ROLLBACK;
+
+--Indexes
+
+-- Indexes in sql  islike indexes in a book, they help you find data faster.ACCESS
+-- they are special lookup tables that the database search engine can use to speed up data retrieval
+EXPLAIN -- Use EXPLAIN ANALYZE to diagnose query performance
+EXPLAIN ANALYZE
+SELECT * FROM  track where composer LIKE '%John%';
+
+
+--Lets create index to speed up composer searches 
+CREATE INDEX idx_composer ON track (composer);
+
+
+CREATE INDEX idx_invoice_customer_data ON invoice(customer_id,total);
+EXPLAIN ANALYSE
+SELECT * FROM invoice 
+WHERE customer_id=1 AND total>5;
+
+--Views 
+
+--Views are virtual tables based on saved quesiresWe can  then reuse the  result 
+CREATE OR REPLACE VIEW rock_tracks_view AS
+SELECT 
+     t.track_id,
+     t.name AS track_name,
+     a.title AS album_title,
+     ar.name as artist_name,
+     t.milliseconds,
+     t.unit_price
+FROM track t
+JOIN album a ON t.album_id=a.album_id
+JOIN artist ar ON a.artist_id=ar.artist_id
+join genre g ON t.genre_id = g.genre_id
+WHERE g.name='Rock'
+
+SELECT * FROM rock_tracks_view
+WHERE album_title LIKE '%Restless and Wild%'
+ROLLBACK;
+--Lets create a stored procedure
+CREATE OR REPLACE PROCEDURE update_track_price(
+    genre_name TEXT,
+    price_increase_percent NUMERIC
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+      UPDATE track
+      SET unit_price = unit_price * (1 + price_increase_percent / 100)
+      WHERE genre_id = (SELECT genre_id FROM genre WHERE name = genre_name);
+
+     RAISE NOTICE 'Updated prices for genre: %, increased by % percent', genre_name,price_increase_percent;
+
+END;
+$$;
+
+
+
+SELECT track_name,unit_price FROM rock_tracks_view
+CALL update_track_price('Rock',10);
+
+
+ROLLBACK;
+--lets create a function to create a single value back thsi case how much a user spent at out music store
+CREATE OR REPLACE FUNCTION get_customer_total_spent(
+    custome_idp INTEGER) 
+RETURNS NUMERIC
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    total_spent NUMERIC; -- declaring any variables total will hold some values like total amount spent 
+BEGIN
+     SELECT SUM(total) INTO total_spent
+     FROM invoice
+     WHERE customer_id = customer_idp;
+     
+     RETURN total_spent;
+
+
+--notice we use return up top,but just return
+
+
+END;
+$$;
+
+--IF WE WANT TO USE A FUNCTION AS ANUY OTHER FUNCTION LIKE SELECTING THE COUNT AS PART OF THE QUERRY
+SELECT first_name,get_customer_total_spent(1)     AS total_spent
+FROM customer;
+
+
+
+
+---DATABSE ADMIN-A sored procedure or a databse that happens automatically whe a specific event occures
+--Triggers can be set up to automatically run on things like INSERT UPDATE DELETE etc
+--can be used for logging task automation and things like that 
